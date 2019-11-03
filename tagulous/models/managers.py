@@ -517,6 +517,8 @@ class TagRelatedManagerMixin(BaseTagRelatedManager):
         """
         db_tags = []
         for tag in tags:
+            if isinstance(tag, int):
+                tag = self.tag_model.objects.get(pk=tag)
             if tag.pk:
                 # Already in DB
                 db_tag = tag
@@ -535,7 +537,7 @@ class TagRelatedManagerMixin(BaseTagRelatedManager):
     #
     # New set, add, remove and clear, to update tag counts
     #
-    def set(self, *objs):
+    def set(self, objs):
         self.clear()
         self.add(*objs)
 
