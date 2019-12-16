@@ -385,6 +385,8 @@ class TaggedModel(models.Model):
                     # Workaround 'ManyToOneRel' object has no attribute 'contribute_to_class
                     if isinstance(field, models.ManyToOneRel):
                         continue
+                    elif isinstance(field, models.ManyToManyRel):
+                        continue
                     # Find fields which are either TagFields, or not M2Ms -
                     # anything which Deserializer will have stored data for
                     elif isinstance(field, TagField) or not (
@@ -409,6 +411,8 @@ class TaggedModel(models.Model):
         for field in fields:
             # Workaround 'ManyToOneRel' object has no attribute 'contribute_to_class
             if isinstance(field, models.ManyToOneRel):
+                continue
+            elif isinstance(field, models.ManyToManyRel):
                 continue
             elif isinstance(field, BaseTagField):
                 clone_field = models.Field(
